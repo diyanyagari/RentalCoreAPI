@@ -3,6 +3,11 @@ import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Role } from "./entity/Role";
 import "dotenv/config";
+import { CategoryProduct } from "./entity/CategoryProduct";
+import { Transactions } from "./entity/Transactions";
+import { Product } from "./entity/Product";
+import { join } from "path";
+import { readdirSync } from "fs";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,7 +18,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: false, // Synchronize in development only
   logging: true,
-  entities: [User], // Add entities here
+  entities: [User, Role, CategoryProduct, Product, Transactions], // Add entities here
   subscribers: [],
   migrations: ["src/migration/**/*.ts"],
 });

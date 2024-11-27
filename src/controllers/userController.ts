@@ -2,24 +2,17 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
 import bcrypt from "bcryptjs";
+import { CustomError, GlobalMsg } from "../utils/CustomError";
 
 const userRepository = AppDataSource.getRepository(User);
-
-class CustomError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "CustomError"; // You can set a custom name for your error class
-  }
-}
 
 export const getUsers = async (_: Request, res: Response) => {
   try {
     const users = await userRepository.find();
-    // res.json(users);
     res.status(200).json({
       success: true,
-      data: users || [], // Returns empty array if no users found
-      message: users.length ? "Users retrieved successfully" : "No users found",
+      data: users || [],
+      message: GlobalMsg("Users", users),
     });
   } catch (error) {
     res.status(500).json({
