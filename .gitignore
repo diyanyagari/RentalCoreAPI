@@ -10,10 +10,6 @@ node_modules
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
-
 # production
 /build
 
@@ -43,3 +39,6 @@ next-env.d.ts
 # lock
 yarn.lock
 package-lock.json
+
+# build result
+/dist

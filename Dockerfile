@@ -32,7 +32,7 @@ COPY certificate.crt /etc/ssl/certs/
 COPY private.key /etc/ssl/private/
 
 # Copy the Node.js app build from the previous image
-COPY --from=app /app/build /usr/share/nginx/html
+COPY --from=app /dist /usr/share/nginx/html
 
 # Expose port 443 for HTTPS
 EXPOSE 443
