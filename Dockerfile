@@ -20,5 +20,8 @@ COPY . .
 # Expose the port your app runs on (update based on your app's config)
 EXPOSE 3000
 
+# Run migration 
+CMD ["npm", "run", "migration:run"]
+
 # Run the app
 CMD ["npm", "start"]
