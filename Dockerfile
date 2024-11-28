@@ -28,8 +28,8 @@ FROM nginx:alpine
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Copy SSL certificates (make sure you have these certificates or use self-signed certificates)
-COPY /path/to/ssl/certificate.crt /etc/ssl/certs/
-COPY /path/to/ssl/private.key /etc/ssl/private/
+COPY certificate.crt /etc/ssl/certs/
+COPY private.key /etc/ssl/private/
 
 # Copy the Node.js app build from the previous image
 COPY --from=app /app/build /usr/share/nginx/html
