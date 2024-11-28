@@ -1,25 +1,27 @@
-# Use Node.js official image as base for the application
-FROM node:16 AS app
+# =====================NGINX SETTINGS=====================
 
-# Set the working directory inside the container
-WORKDIR /app
+# # Use Node.js official image as base for the application
+# FROM node:16 AS app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# # Set the working directory inside the container
+# WORKDIR /app
 
-COPY .env.dev /app/.env
+# # Copy package.json and package-lock.json to the container
+# COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# COPY .env.dev /app/.env
 
-# Copy the rest of the application code
-COPY . .
+# # Install dependencies
+# RUN npm install
 
-# Run the database migrations
-RUN npm run migration:run
+# # Copy the rest of the application code
+# COPY . .
 
-# Build the application if needed (for example, React app or TypeScript)
-RUN npm run build
+# # Run the database migrations
+# RUN npm run migration:run
+
+# # Build the application if needed (for example, React app or TypeScript)
+# RUN npm run build
 
 # # Now, use Nginx for reverse proxy and SSL
 # FROM nginx:alpine
@@ -41,4 +43,30 @@ RUN npm run build
 # # Start Nginx server
 # CMD ["nginx", "-g", "daemon off;"]
 
-RUN npm start
+
+
+# =====================COMMON SETTINGS=====================
+# Use an official Node.js runtime as the base image
+FROM node:16
+
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+
+COPY .env.dev /app/.env
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port your app runs on (update based on your app's config)
+EXPOSE 3000
+
+# Run the app
+CMD ["npm", "start"]
