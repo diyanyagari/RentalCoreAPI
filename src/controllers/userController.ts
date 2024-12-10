@@ -3,16 +3,64 @@ import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
 import bcrypt from "bcryptjs";
 import { CustomError, GlobalMsg } from "../utils/CustomError";
+import { Like } from "typeorm";
 
 const userRepository = AppDataSource.getRepository(User);
 
-export const getUsers = async (_: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await userRepository.find();
+    const { offset = 0, itemsPerPage = 10 } = req.query;
+
+    const offsetNumber = parseInt(offset as string, 10) || 0;
+    const itemsPerPageNumber = parseInt(itemsPerPage as string, 10) || 5;
+
+    const searchQuery = req.query.q
+      ? (req.query.q as string).toLowerCase()
+      : "";
+
+    const totalItems = await userRepository.count({
+      where: [
+        {
+          firstname: Like(`%${searchQuery}%`), // Using Like for partial matches
+        },
+        {
+          lastname: Like(`%${searchQuery}%`),
+        },
+        {
+          username: Like(`%${searchQuery}%`),
+        },
+        {
+          email: Like(`%${searchQuery}%`),
+        },
+      ],
+    });
+
+    const users = await userRepository.find({
+      skip: offsetNumber,
+      take: itemsPerPageNumber,
+      where: [
+        {
+          firstname: Like(`%${searchQuery}%`), // Using Like for partial matches
+        },
+        {
+          lastname: Like(`%${searchQuery}%`),
+        },
+        {
+          username: Like(`%${searchQuery}%`),
+        },
+        {
+          email: Like(`%${searchQuery}%`),
+        },
+      ],
+    });
+
     res.status(200).json({
       success: true,
       data: users || [],
       message: GlobalMsg("Users", users),
+      offset: offsetNumber,
+      totalItems,
+      itemsPerPage: itemsPerPageNumber,
     });
   } catch (error) {
     res.status(500).json({
@@ -24,7 +72,7 @@ export const getUsers = async (_: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { username, email, firstname, lastname, password } = req.body;
+    const { username, email, firstname, lastname, password, role } = req.body;
 
     if (!username || !email || !firstname || !lastname || !password) {
       res.status(400).json({

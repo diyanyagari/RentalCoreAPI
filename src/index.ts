@@ -8,21 +8,41 @@ import categoryProductRoutes from "./routes/categoryProduct";
 import transactionsRoutes from "./routes/transactions";
 import productsRoutes from "./routes/product";
 import { errorHandler } from "./middleware/errorHandler";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// User routes
-app.use("/api", [
-  userRoutes,
-  loginRoutes,
-  categoryProductRoutes,
-  productsRoutes,
-  transactionsRoutes,
-]);
-// app.use("/api", loginRoutes);
+const allowedOrigins = [
+  "http://localhost:3002", // Local machine
+  "http://123.45.67.89:3000", // VPS IP address
+  "http://example.com:3000", // VPS domain
+];
+
+app.use(
+  "/api",
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // Allow requests with no origin (e.g., Postman)
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+  [
+    userRoutes,
+    loginRoutes,
+    categoryProductRoutes,
+    productsRoutes,
+    transactionsRoutes,
+  ]
+);
 
 app.use(errorHandler);
 
