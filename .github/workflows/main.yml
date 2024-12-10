@@ -21,6 +21,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/project/RentalCoreAPI
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+            docker-compose down # Shutdown the running containers
+            docker-compose pull # Pull the latest updates
+            docker-compose up -d # Restart the containers in detached mode
+            # Check if Docker container is running on port 80
+            sudo lsof -i :80 || echo "No service is using port 80"
