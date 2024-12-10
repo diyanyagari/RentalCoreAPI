@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/project
+            cd /project/RentalCoreAPI
             docker-compose down
             docker-compose pull
             docker-compose up -d
