@@ -21,6 +21,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/project/RentalCoreAPI
+            git pull origin main
             docker-compose down # Shutdown the running containers
             docker-compose pull # Pull the latest updates
             docker-compose up -d # Restart the containers in detached mode
