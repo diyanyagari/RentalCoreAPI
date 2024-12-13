@@ -24,6 +24,7 @@ jobs:
           script: |
             cd ~/project/RentalCoreAPI
             git pull origin develop
+            cp .env.dev .env # Copy the development environment file
             docker-compose down # Shutdown the running containers
             docker-compose pull # Pull the latest updates
             docker-compose up -d # Restart the containers in detached mode
@@ -40,6 +41,7 @@ jobs:
           script: |
             cd ~/../home/pakee/backend/RentalCoreAPI/
             git pull origin main
+            cp .env.prod .env # Copy the production environment file
             docker-compose down # Shutdown the running containers
             docker-compose pull # Pull the latest updates
             docker-compose up -d # Restart the containers in detached mode
