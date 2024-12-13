@@ -28,8 +28,13 @@ jobs:
             echo "Contents of .env after copying:"
             cat .env # Print the .env file contents
             docker-compose down # Shutdown the running containers
-            docker-compose pull # Pull the latest updates
-            docker-compose up --build -d # Restart the containers in detached mode
+
+            # docker-compose pull # Pull the latest updates
+            # docker-compose up --build -d # Restart the containers in detached mode
+
+            docker-compose build --build-arg ENV_FILE=.env.dev # Build with the appropriate .env file
+            docker-compose up -d # Restart the containers in detached mode
+
             # Check if Docker container is running on port 5432
             sudo lsof -i :5432 || echo "No service is using port 5432"
 
@@ -48,8 +53,13 @@ jobs:
             cat .env # Print the .env file contents
             echo "Host value: ${{ secrets.SERVER_PROD_HOST }}"
             docker-compose down # Shutdown the running containers
-            docker-compose pull # Pull the latest updates
-            docker-compose up --build -d # Restart the containers in detached mode
+            
+            # docker-compose pull # Pull the latest updates
+            # docker-compose up --build -d # Restart the containers in detached mode
+      
+            docker-compose build --build-arg ENV_FILE=.env.prod # Build with the appropriate .env file
+            docker-compose up -d # Restart the containers in detached mode
+
             # Check if Docker container is running on port 5432
             sudo lsof -i :5432 || echo "No service is using port 5432"
 
