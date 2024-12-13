@@ -29,9 +29,9 @@ jobs:
             cat .env # Print the .env file contents
             docker-compose down # Shutdown the running containers
             docker-compose pull # Pull the latest updates
-            docker-compose up -d # Restart the containers in detached mode
-            # Check if Docker container is running on port 80
-            sudo lsof -i :5432 || echo "No service is using port 80"
+            docker-compose up --build -d # Restart the containers in detached mode
+            # Check if Docker container is running on port 5432
+            sudo lsof -i :5432 || echo "No service is using port 5432"
 
       - name: Deploy to Production
         if: ${{ github.ref_name == 'main' }}
@@ -49,7 +49,7 @@ jobs:
             echo "Host value: ${{ secrets.SERVER_PROD_HOST }}"
             docker-compose down # Shutdown the running containers
             docker-compose pull # Pull the latest updates
-            docker-compose up -d # Restart the containers in detached mode
-            # Check if Docker container is running on port 80
-            sudo lsof -i :5432 || echo "No service is using port 80"
+            docker-compose up --build -d # Restart the containers in detached mode
+            # Check if Docker container is running on port 5432
+            sudo lsof -i :5432 || echo "No service is using port 5432"
 
