@@ -46,7 +46,7 @@ jobs:
             cp .env.prod .env # Copy the production environment file
             echo "Contents of .env after copying:"
             cat .env # Print the .env file contents
-            cat HOST -> ${{ secrets.SERVER_PROD_HOST }}
+            echo "Host value: ${{ secrets.SERVER_PROD_HOST }}"
             docker-compose down # Shutdown the running containers
             docker-compose pull # Pull the latest updates
             docker-compose up -d # Restart the containers in detached mode
