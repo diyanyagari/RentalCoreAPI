@@ -62,7 +62,6 @@ export const getUsers = async (req: Request, res: Response) => {
       offset: offsetNumber,
       totalItems,
       itemsPerPage: itemsPerPageNumber,
-      test: "debug",
     });
   } catch (error) {
     res.status(500).json({
