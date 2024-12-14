@@ -3,7 +3,8 @@ import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
 import bcrypt from "bcryptjs";
 import { CustomError, GlobalMsg } from "../utils/CustomError";
-import { Like } from "typeorm";
+import { Equal, Like } from "typeorm";
+import { validate as isUuid } from "uuid";
 
 const userRepository = AppDataSource.getRepository(User);
 
@@ -61,7 +62,7 @@ export const getUsers = async (req: Request, res: Response) => {
       offset: offsetNumber,
       totalItems,
       itemsPerPage: itemsPerPageNumber,
-      test: 'debug'
+      test: "debug",
     });
   } catch (error) {
     res.status(500).json({
@@ -125,7 +126,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { username, firstname, lastname, password, role } = req.body;
 
-    const user = await userRepository.findOne({ where: { id: parseInt(id) } });
+    const user = await userRepository.findOne({ where: { id: id } });
 
     if (!user) {
       res.status(404).json({
@@ -162,8 +163,17 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
+    // Validate the UUID format
+    if (!isUuid(id)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid UUID format.",
+      });
+      return;
+    }
+
     // Find user by ID
-    const user = await userRepository.findOne({ where: { id: parseInt(id) } });
+    const user = await userRepository.findOne({ where: { id: Equal(id) } });
 
     if (!user) {
       res.status(404).json({
@@ -181,6 +191,7 @@ export const deleteUser = async (req: Request, res: Response) => {
       message: "User deleted successfully.",
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "An error occurred. Please try again later.",
