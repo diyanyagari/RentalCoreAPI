@@ -63,10 +63,11 @@ COPY ${ENV_FILE} /app/.env
 # Install dependencies
 RUN npm install
 
-RUN npm run migration:run
 
 # Copy the rest of the application code
 COPY . .
+
+RUN npm run migration:run
 
 # Expose the port your app runs on (update based on your app's config)
 EXPOSE 3000
