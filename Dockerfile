@@ -56,8 +56,6 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-RUN npm run migration:run
-
 # Use a build argument to specify the environment file
 ARG ENV_FILE=.env.dev
 COPY ${ENV_FILE} /app/.env
@@ -65,8 +63,11 @@ COPY ${ENV_FILE} /app/.env
 # Install dependencies
 RUN npm install
 
+
 # Copy the rest of the application code
 COPY . .
+
+RUN npm run migration:run
 
 # Expose the port your app runs on (update based on your app's config)
 EXPOSE 3000
