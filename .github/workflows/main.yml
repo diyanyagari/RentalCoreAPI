@@ -25,13 +25,8 @@ jobs:
             cd ~/project/RentalCoreAPI
             git pull origin develop
 
-            # cp .env.dev .env # Copy the development environment file
-            # echo "Contents of .env after copying:"
-            # cat .env # Print the .env file contents
-
             echo "${{ secrets.ENV_DEV }}" > .env.dev
             echo "Contents of .env.dev (develop):"
-            cat .env.dev
 
             docker-compose down # Shutdown the running containers
             docker-compose build --build-arg ENV_FILE=.env.dev
@@ -51,14 +46,8 @@ jobs:
             cd ~/../home/pakee/backend/RentalCoreAPI/
             git pull origin main
 
-            # cp .env.prod .env # Copy the production environment file
-            # echo "Contents of .env after copying:"
-            # cat .env # Print the .env file contents
-            # echo "Host value: ${{ secrets.SERVER_PROD_HOST }}"
-
-            echo "${{ secrets.ENV_DEV }}" > .env.prod
+            echo "${{ secrets.ENV_PROD }}" > .env.prod
             echo "Contents of .env.prod (production):"
-            cat .env.prod
             
             docker-compose down # Shutdown the running containers
             docker-compose build --build-arg ENV_FILE=.env.prod # Build with the appropriate .env file
