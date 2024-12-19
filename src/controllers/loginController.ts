@@ -59,13 +59,13 @@ export const loginUser = async (req: Request, res: Response) => {
       message: "Login successful",
       data: {
         token,
-        user: {
-          username: user.username,
-          email: user.email,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          role: user.role,
-        },
+        // user: {
+        //   username: user.username,
+        //   email: user.email,
+        //   firstname: user.firstname,
+        //   lastname: user.lastname,
+        //   role: user.role,
+        // },
       },
     });
   } catch (error) {
