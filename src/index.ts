@@ -20,6 +20,7 @@ const allowedOrigins = [
   "http://localhost:3002", // Local machine
   "http://123.45.67.89:3000", // VPS IP address
   "http://example.com:3000", // VPS domain
+  "https://cms-dev.diyanpratama.com", // VPS CMS
 ];
 
 app.use(
