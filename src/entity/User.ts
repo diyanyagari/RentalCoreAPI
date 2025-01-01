@@ -30,7 +30,7 @@ export class User {
   password!: string;
 
   @Column({ default: "customer" })
-  role!: "admin" | "business owner" | "customer";
+  role!: "admin" | "business owner" | "customer" | "player";
 
   @Column({ type: "timestamp", nullable: true })
   last_login!: Date | null;

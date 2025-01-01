@@ -6,6 +6,7 @@ import userRoutes from "./routes/user";
 import loginRoutes from "./routes/login";
 import categoryProductRoutes from "./routes/categoryProduct";
 import transactionsRoutes from "./routes/transactions";
+import gameRoutes from "./routes/game";
 import productsRoutes from "./routes/product";
 import { errorHandler } from "./middleware/errorHandler";
 import cors from "cors";
@@ -41,6 +42,7 @@ app.use(
     categoryProductRoutes,
     productsRoutes,
     transactionsRoutes,
+    gameRoutes,
   ]
 );
 

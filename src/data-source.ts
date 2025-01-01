@@ -6,6 +6,8 @@ import "dotenv/config";
 import { CategoryProduct } from "./entity/CategoryProduct";
 import { Transactions } from "./entity/Transactions";
 import { Product } from "./entity/Product";
+import { AlternateJobs } from "./entity/Game/AlternateJobs";
+import { JobChoosen } from "./entity/Game/JobChoosen";
 import { join } from "path";
 import { readdirSync } from "fs";
 
@@ -18,7 +20,15 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: false, // Synchronize in development only
   logging: true,
-  entities: [User, Role, CategoryProduct, Product, Transactions], // Add entities here
+  entities: [
+    User,
+    Role,
+    CategoryProduct,
+    Product,
+    Transactions,
+    AlternateJobs,
+    JobChoosen,
+  ], // Add entities here
   subscribers: [],
   migrations: ["src/migration/**/*.ts"],
 });
