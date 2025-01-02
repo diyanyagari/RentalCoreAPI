@@ -9,7 +9,7 @@ dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
 
 export const loginUser = async (req: Request, res: Response) => {
-  const { identifier, password } = req.body; // `identifier` can be email or username
+  const { identifier, password, type = "cms" } = req.body; // `identifier` can be email or username
 
   const userRepository = AppDataSource.getRepository(User);
 
@@ -46,6 +46,21 @@ export const loginUser = async (req: Request, res: Response) => {
       return;
     }
 
+    // Role-based validation based on the login type
+    if (type === "cms" && user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Only admins can log in to the CMS.",
+      });
+    }
+
+    if (type === "website" && user.role !== "player") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Only players can log in to the website.",
+      });
+    }
+
     // Generate a JWT token
     const token = jwt.sign(
       { userId: user.id, access: user.role },
@@ -59,13 +74,6 @@ export const loginUser = async (req: Request, res: Response) => {
       message: "Login successful",
       data: {
         token,
-        // user: {
-        //   username: user.username,
-        //   email: user.email,
-        //   firstname: user.firstname,
-        //   lastname: user.lastname,
-        //   role: user.role,
-        // },
       },
     });
   } catch (error) {
