@@ -48,17 +48,19 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // Role-based validation based on the login type
     if (type === "cms" && user.role !== "admin") {
-      return res.status(403).json({
+      res.status(403).json({
         success: false,
         message: "Access denied. Only admins can log in to the CMS.",
       });
+      return;
     }
 
     if (type === "website" && user.role !== "player") {
-      return res.status(403).json({
+      res.status(403).json({
         success: false,
         message: "Access denied. Only players can log in to the website.",
       });
+      return;
     }
 
     // Generate a JWT token
